@@ -28,7 +28,7 @@ void takeData() {
     delay(dataFrequency);
     sensorData();
   }
-  Serial.println("******** FINISHED. WEST LENGTH: 7200 lines *********");
+  Serial.println("******** FINISHED. EAST LENGTH: 7200 lines *********");
 }
 
 void sensorData() {
