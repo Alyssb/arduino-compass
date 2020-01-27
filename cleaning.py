@@ -123,7 +123,7 @@ def stdfn(infile, avg):
 
 def main():
     # definitely could be cleaner
-    root = 'C:\\Users\\alyss\\Documents\\overnight_data\\20mindata\\' # change as needed
+    root = 'C:\\Users\\alyss\\Documents\\arduino-compass\\20mindata\\' # change as needed
     infile = open(root + "20mindata.txt", "r").read().split("\n")
     
     # VARIABLES
@@ -177,18 +177,17 @@ def main():
         print(xaverages)
         # done with this today I think
 
-
-        
-
     print("cleaning...")
+
     # create a gnuplot script in the active folder
     # probably a better way to do this, 
-    #   but I couldn't get a gnuplot script to run from another folder
-    with open(root+"plot_accel.p", "w") as outfile:
+    # but I couldn't get a gnuplot script to run from another folder
+    with open(root+"plot_accel.gp", "w") as outfile:
         outfile.write("set term png\n")                      # output is png
-        outfile.write("set output 'accel_clean.png\n")       # name output
-        outfile.write("plot 'xaccelclean' w lines title " +  # plot xaccel and y accel
-        "'X Accel', 'yaccelclean' w lines title 'Y Accel'")
+        outfile.write("set output 'accel_clean.png'\n")       # name output
+        outfile.write("plot '" + root + "xaccelclean' w lines title " +  # plot xaccel and y accel
+        "'X Accel', (" + str(xaverages[0]) +"), (" + str(xaverages[-1]) + "), '"+ root + "yaccelclean' w lines title 'Y Accel'\n")
+        outfile.write("unset output")
     system('gnuplot ' + root + 'plot_accel.p')               # run the gnuplot script created
     print("plot created.")
 
