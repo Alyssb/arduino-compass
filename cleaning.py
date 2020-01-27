@@ -20,6 +20,7 @@ I will be using this data to calculate which direction random data is facing.
 '''
 # allows me to run system commands or delete files
 from os import system, remove
+import subprocess
 
 #################################################### FILE SPEARATION ####################################################
 
@@ -179,16 +180,35 @@ def main():
 
     print("cleaning...")
 
-    # create a gnuplot script in the active folder
-    # probably a better way to do this, 
-    # but I couldn't get a gnuplot script to run from another folder
-    with open(root+"plot_accel.gp", "w") as outfile:
-        outfile.write("set term png\n")                      # output is png
-        outfile.write("set output 'accel_clean.png'\n")       # name output
-        outfile.write("plot '" + root + "xaccelclean' w lines title " +  # plot xaccel and y accel
-        "'X Accel', (" + str(xaverages[0]) +"), (" + str(xaverages[-1]) + "), '"+ root + "yaccelclean' w lines title 'Y Accel'\n")
-        outfile.write("unset output")
-    system('gnuplot ' + root + 'plot_accel.p')               # run the gnuplot script created
+    # gnuplot script attempt 2: using process to just run gnu commands
+    '''
+    # Some code stolen from stack overflow
+    import subprocess
+    proc = subprocess.Popen(['gnuplot','-p'], 
+                        shell=True,
+                        stdin=subprocess.PIPE,
+                        )
+    proc.stdin.write('set xrange [0:10]; set yrange [-2:2]\n')
+    proc.stdin.write('plot sin(x)\n')
+    proc.stdin.write('quit\n') #close the gnuplot window
+    '''
+    
+
+    '''
+    # I was trying to create a gnu file and then execute it
+    # but that's apparently not how I'm supposed to be doing this.
+
+    # # create a gnuplot script in the active folder
+    # # probably a better way to do this, 
+    # # but I couldn't get a gnuplot script to run from another folder
+    # with open(root+"plot_accel.gp", "w") as outfile:
+    #     outfile.write("set term png\n")                      # output is png
+    #     outfile.write("set output 'accel_clean.png'\n")       # name output
+    #     outfile.write("plot '" + root + "xaccelclean' w lines title " +  # plot xaccel and y accel
+    #     "'X Accel', (" + str(xaverages[0]) +"), (" + str(xaverages[-1]) + "), '"+ root + "yaccelclean' w lines title 'Y Accel'\n")
+    #     outfile.write("unset output")
+    # system('gnuplot ' + root + 'plot_accel.p')               # run the gnuplot script created
+    '''
     print("plot created.")
 
 ####################################################################################################################################
