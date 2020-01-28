@@ -192,15 +192,13 @@ def main():
     print("averages calculated:\n\tXAVERAGES: ", 
     xaverages, '\n\tYAVERAGES: ', yaverages, '\n\tZAVERAGES: ', zaverages)
 
-    # create a gnuplot script in the active folder
+    # create and run a gnuplot script in the active folder
     # probably a better way to do this, 
-    # but I couldn't get a gnuplot script to run from another folder
     with open(root+"plot_accel.gp", "w") as outfile:
         outfile.write("set term png\n")                      # output is png
         outfile.write("set output '" + root + "accel_clean.png'\n")       # name output
         outfile.write("plot '" + root + "xaccelclean' w lines title " +  # plot xaccel and y accel
         "'X Accel', (" + str(xaverages[0]) +"), (" + str(xaverages[-1]) + "), '"+ root + "yaccelclean' w lines title 'Y Accel'\n")
-        # outfile.write("unset output")
     system('gnuplot ' + root + 'plot_accel.gp') # runs the created gnuplot script
     
     print("plot created.")
