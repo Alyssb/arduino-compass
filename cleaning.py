@@ -189,7 +189,7 @@ def main():
     # but I couldn't get a gnuplot script to run from another folder
     with open(root+"plot_accel.gp", "w") as outfile:
         outfile.write("set term png\n")                      # output is png
-        outfile.write("set output 'accel_clean.png'\n")       # name output
+        outfile.write("set output '" + root + "accel_clean.png'\n")       # name output
         outfile.write("plot '" + root + "xaccelclean' w lines title " +  # plot xaccel and y accel
         "'X Accel', (" + str(xaverages[0]) +"), (" + str(xaverages[-1]) + "), '"+ root + "yaccelclean' w lines title 'Y Accel'\n")
         # outfile.write("unset output")
