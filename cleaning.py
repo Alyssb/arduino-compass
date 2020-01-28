@@ -167,7 +167,7 @@ def main():
                     outfile.write(val.strip()+"\n")
 
             # remove(root+i+j) # remove some files to reduce clutter
-        # remove(root + i)
+        remove(root + i)
 
     # calculating the averages
     for i in names:
@@ -193,9 +193,7 @@ def main():
         outfile.write("plot '" + root + "xaccelclean' w lines title " +  # plot xaccel and y accel
         "'X Accel', (" + str(xaverages[0]) +"), (" + str(xaverages[-1]) + "), '"+ root + "yaccelclean' w lines title 'Y Accel'\n")
         # outfile.write("unset output")
-    system('gnuplot ' + root + 'plot_accel.gp') # Okay idk WHY TF it's not saving my .png but I have to be done with this
-    # ask dr. clark about it, still saves when run from cmd
-    # idk this is so frustrating yo.
+    system('gnuplot ' + root + 'plot_accel.gp') # runs the created gnuplot script
     
     print("plot created.")
 
