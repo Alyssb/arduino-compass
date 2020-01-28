@@ -24,8 +24,8 @@ from os import system, remove
 #################################################### FILE SPEARATION ####################################################
 
 class directionalize:
-    # creates a file for each direction
-    # for x acceleration, y acceleration, and z acceleration
+    # creates a file for each direction and extension
+
     def __init__(self, infile, numsections, linesPerSection, root, names, columnnames):
         self.infile = infile
         self.numsections = numsections
@@ -34,22 +34,24 @@ class directionalize:
         self.names = names
         self.columnnames = columnnames
 
+    # creates a file for each direction
     def splitByD(self):
-        # creates separate files for each direction in original
         currentSection = 0
         for i in range(0,self.numsections):
             currentSection = i
             with open(self.root + self.names[currentSection], "w+") as outfile:
-                for j in range(currentSection * self.linesPerSection, (currentSection*self.linesPerSection) + self.linesPerSection):
+                for j in range(currentSection * self.linesPerSection, 
+                        (currentSection*self.linesPerSection) + self.linesPerSection):
                     outfile.write(self.infile[j] + "\n")
-                
+    
+    # creates a file for each acceleration
     def splitByAccel(self, name):
-        # creates separate files for each acceleration
         # takes a direction file
-
         column = 0
         filename = open(self.root + name).read().split("\n")
 
+        # the columns are known in the data
+        # this will not work if the data is in a different format
         for i in self.columnnames:
             with open(self.root + name + i, "w+") as outfile:
                 for line in filename:
@@ -121,6 +123,7 @@ def stdfn(infile, avg):
 
 ######################################################## MISC. SPACE MANAGEMENT #########################################################
 
+# gets the averages and puts them in a list. Deletes excess files
 def getAvgs(root, name, extension, averages):
     infile = open(root + name + extension).read().split("\n")
     del infile [-1]
@@ -197,6 +200,7 @@ def main():
     with open(root+"plot_accel.gp", "w") as outfile:
         outfile.write("set term png\n")                      # output is png
         outfile.write("set output '" + root + "accel_clean.png'\n")       # name output
+        # I want to draw arrows on the plot but that's cosmetic and a later problem I think
         outfile.write("plot '" + root + "xaccelclean' w lines title " +  # plot xaccel and y accel
         "'X Accel', (" + str(xaverages[0]) +"), (" + str(xaverages[-1]) + "), '"+ root + "yaccelclean' w lines title 'Y Accel'\n")
     system('gnuplot ' + root + 'plot_accel.gp') # runs the created gnuplot script

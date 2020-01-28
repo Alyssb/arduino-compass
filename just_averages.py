@@ -15,6 +15,8 @@ from os import system, remove
 # a lot of this is going to be stolen from cleaning.py
 # further proof that I should make a module
 # ask Dr. Clark about the procedure for doing that(?)
+# or just research it yourself it's not even hard...
+# I'm so hungry and I don't want to do this
 
 def main():
     print("hello world.")
