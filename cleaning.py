@@ -1,5 +1,5 @@
 '''
-Alyssa Slayton 01/22/2020
+Alyssa Slayton 01/28/2020
 My first real python script
 I would like to eventually separate this into modules
 '''
@@ -13,9 +13,9 @@ A python script which:
         writes a gnuplot script in respective directory
         plots clean x accel data versus clean y accel data
         outputs png
+        Calculates and returns average of each direction
     WILL:
-        Calculate average of each direction
-        tell me those averages
+        put averages in same file as just_averages.py
 I will be using this data to calculate which direction random data is facing.
 '''
 # allows me to run system commands or delete files
@@ -170,12 +170,28 @@ def main():
         remove(root + i)
 
     # calculating the averages
+    # definitely a more efficient way to do this, I'll compress later.
     for i in names:
         infile = open(root + i + 'xaccel').read().split("\n")
         del infile [-1]
         del infile [-1]
         xaverages.append(avgfn(infile))
-        print(xaverages)
+        remove(root + i + 'xaccel')
+
+        infile = open(root + i + 'yaccel').read().split("\n")
+        del infile[-1]
+        del infile[-1]
+        yaverages.append(avgfn(infile))
+        print(yaverages)
+        remove(root + i + 'yaccel')
+
+        infile = open(root + i + 'zaccel').read().split("\n")
+        del infile[-1]
+        del infile[-1]
+        zaverages.append(avgfn(infile))
+        print(zaverages)
+        remove(root + i + 'zaccel')
+
         # done with this today I think
 
     print("cleaning...")
