@@ -2,7 +2,7 @@
 Alyssa Slayton 01/28/2020
 '''
 '''
-A oython script which:
+A python script which:
     WILL:
         get a list of all files in a folder
         calculate averages for xaccel, yaccel, zaccel
@@ -12,13 +12,16 @@ I will be using this data to calculate which direction random data is facing
 '''
 from os import system, remove
 
-# a lot of this is going to be stolen from cleaning.py
-# further proof that I should make a module
-# ask Dr. Clark about the procedure for doing that(?)
-# or just research it yourself it's not even hard...
-# I'm so hungry and I don't want to do this
+def getFiles():
+    print("not yet implemented")
+
+def splitByAccel():
+    print("not yet implemented")
 
 def main():
+    root = 'C:\\Users\\alyss\\Documents\\arduino-compass\\'
+    names = ["north", "south", "east", "west"]
+    
     print("hello world.")
 
 if __name__ == '__main__':
