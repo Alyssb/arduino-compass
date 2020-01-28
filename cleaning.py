@@ -20,7 +20,6 @@ I will be using this data to calculate which direction random data is facing.
 '''
 # allows me to run system commands or delete files
 from os import system, remove
-import subprocess
 
 #################################################### FILE SPEARATION ####################################################
 
@@ -120,10 +119,22 @@ def stdfn(infile, avg):
         total+=((float(infile[i])-avg)**2)
     return total/(len(infile))       
 
+######################################################## MISC. SPACE MANAGEMENT #########################################################
+
+def getAvgs(root, name, extension, averages):
+    infile = open(root + name + extension).read().split("\n")
+    del infile [-1]
+    del infile [-1]
+    averages.append(avgfn(infile))
+    remove(root + name + extension)
+
 ############################################################## MAIN ##############################################################
+
 
 def main():
     # definitely could be cleaner
+    print("cleaning...")
+
     root = 'C:\\Users\\alyss\\Documents\\arduino-compass\\20mindata\\' # change as needed
     infile = open(root + "20mindata.txt", "r").read().split("\n")
     
@@ -169,36 +180,17 @@ def main():
             # remove(root+i+j) # remove some files to reduce clutter
         remove(root + i)
 
+    print('cleaned.')
+
     # calculating the averages
-    # definitely a more efficient way to do this, I'll compress later.
+    print('calculating averages....')
     for i in names:
-        infile = open(root + i + 'xaccel').read().split("\n")
-        del infile [-1]
-        del infile [-1]
-        xaverages.append(avgfn(infile))
-        remove(root + i + 'xaccel')
+        getAvgs(root, i, 'xaccel', xaverages)
+        getAvgs(root, i, 'yaccel', yaverages)
+        getAvgs(root, i, 'zaccel', zaverages)
 
-        infile = open(root + i + 'yaccel').read().split("\n")
-        del infile[-1]
-        del infile[-1]
-        yaverages.append(avgfn(infile))
-        print(yaverages)
-        remove(root + i + 'yaccel')
-
-        infile = open(root + i + 'zaccel').read().split("\n")
-        del infile[-1]
-        del infile[-1]
-        zaverages.append(avgfn(infile))
-        print(zaverages)
-        remove(root + i + 'zaccel')
-
-        # done with this today I think
-
-    print("cleaning...")
-
-    
-    # I was trying to create a gnu file and then execute it
-    # but that's apparently not how I'm supposed to be doing this.
+    print("averages calculated:\n\tXAVERAGES: ", 
+    xaverages, '\n\tYAVERAGES: ', yaverages, '\n\tZAVERAGES: ', zaverages)
 
     # create a gnuplot script in the active folder
     # probably a better way to do this, 
