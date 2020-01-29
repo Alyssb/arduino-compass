@@ -33,21 +33,23 @@ def getFiles(root, folder):
     return(open(root + folder + "filenames.txt").read().split())
 
 # splits by accel, makes a bajillion files
-def splitByAccel(root, filename, columnames):
+def splitByAccel(root, folder, filename, columnames):
     # this is just regurgitated code from cleaning.py
     column = 0
     for i in columnames:
-        with open(root + filename + i, "w+") as outfile:
+        with open(root + folder, filename + i, "w+") as outfile:
             for line in filename:
                 if(len(line) >= column):
                     outfile.write(line.split("\t")[column] + "\n")
         column += 1
     
-
+# why do I put so much garbage in my main
 def main():
     root = 'C:\\Users\\alyss\\Documents\\arduino-compass\\'
     folders = ["data_north\\", "data_south\\", "data_east\\", "data_west\\"]
     extensions = ["xaccel", "yaccel", "zaccel"]
+    
+    # code-spaghet
     for folder in folders:
         filenames = getFiles(root, folder)
 
@@ -55,10 +57,10 @@ def main():
             if name == 'filenames.txt':
                 filenames.remove(name)
 
-            splitByAccel(root, name, extensions)
+            splitByAccel(root, folder, name, extensions)
             # more reused code
             for j in extensions:
-                infile = open(root + name + j).read().split("\n")
+                infile = open(root + folder + name + j).read().split("\n")
 
                 del infile[-1]
                 outliers = removeOutliers.Outliers(infile)
@@ -69,8 +71,7 @@ def main():
                 with open(root + name + j + "clean", "a") as outfile:
                     for val in cleaned:
                         outfile.write(val.strip()+"\n")
-        remove (root + name)    # reduces clutter
-                
+        remove (root + folder + name)    # reduces clutter
 
 
 
