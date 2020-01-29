@@ -63,6 +63,14 @@ class directionalize:
 
 ######################################################### CALCULATING AVERAGE ##############################################
 
+# gets the averages and puts them in a list. Deletes excess files
+def getAvgs(root, name, extension, averages):
+    infile = open(root + name + extension).read().split("\n")
+    del infile [-1]
+    del infile [-1]
+    averages.append(avgfn(infile))
+    # remove(root + name + extension)
+
 def avgfn(infile):
     # calculates average of a file
     total = 0.0
@@ -79,16 +87,6 @@ def stdfn(infile, avg):
     for i in range(len(infile)):
         total+=((float(infile[i])-avg)**2)
     return total/(len(infile))       
-
-######################################################## MISC. SPACE MANAGEMENT #########################################################
-
-# gets the averages and puts them in a list. Deletes excess files
-def getAvgs(root, name, extension, averages):
-    infile = open(root + name + extension).read().split("\n")
-    del infile [-1]
-    del infile [-1]
-    averages.append(avgfn(infile))
-    remove(root + name + extension)
 
 ############################################################## MAIN ##############################################################
 
