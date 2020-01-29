@@ -2,7 +2,7 @@
 # the averages are not lined up, too lazy to do that rn
 
 set term png 
-set output 'accel_clean_with_avg'
+set output 'accel_clean_with_avg.png'
 
 # set arrows starting with yaccel
 set arrow 1 from 0,-1.4151343408900134 to 2400,-1.4151343408900134 nohead front
