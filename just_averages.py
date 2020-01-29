@@ -18,20 +18,37 @@ Design notes for myself:
 '''
 from os import system, remove
 
-def getFiles(root, name):
-    system("dir /b /a-d " + root + name + " > " + root + name + "filenames.txt")
-    return(open(root + name + "filenames.txt").read().split())
+# creates a file that is a list of filenames and then returns it as a listb
+def getFiles(root, folder):
+    system("dir /b /a-d " + root + folder + " > " + root + folder + "filenames.txt")
+    return(open(root + folder + "filenames.txt").read().split())
 
-def splitByAccel():
-    print("not yet implemented")
+# splits by accel, makes a bajillion files
+def splitByAccel(root, filename, columnames):
+    # this is just regurgitated code from cleaning.py
+    # will eventually modularize this code
+    column = 0
+    for i in columnames:
+        with open(root + filename + i, "w+") as outfile:
+            for line in filename:
+                if(len(line) >= column):
+                    outfile.write(line.split("\t")[column] + "\n")
+        column += 1
+    
 
 def main():
     root = 'C:\\Users\\alyss\\Documents\\arduino-compass\\'
-    names = ["data_north\\", "data_south\\", "data_east\\", "data_west\\"]
-    for name in names:
-        filenames = getFiles(root, name)
+    folders = ["data_north\\", "data_south\\", "data_east\\", "data_west\\"]
+    columnames = ["xaccel", "yaccel", "zaccel"]
+    for folder in folders:
+        filenames = getFiles(root, folder)
         print(filenames)
-    print("hello world.")
+        for name in filenames:
+            if name == 'filenames.txt':
+                pass
+            else:
+                splitByAccel(root, name, columnames)
+
 
 if __name__ == '__main__':
     main()
