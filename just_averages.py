@@ -15,7 +15,16 @@ Design notes for myself:
     Get a list of all filenames in a folder
     separate as filename_$accel_clean
     gonna be a lot of files but that's chill ig
+
+    remove outliers
+    produce clean files
+    delete dirty ones
+
+    calculate averages
+    create a file with them
+    remove all extra files
 '''
+import removeOutliers
 from os import system, remove
 
 # creates a file that is a list of filenames and then returns it as a listb
@@ -26,7 +35,6 @@ def getFiles(root, folder):
 # splits by accel, makes a bajillion files
 def splitByAccel(root, filename, columnames):
     # this is just regurgitated code from cleaning.py
-    # will eventually modularize this code
     column = 0
     for i in columnames:
         with open(root + filename + i, "w+") as outfile:
@@ -39,15 +47,32 @@ def splitByAccel(root, filename, columnames):
 def main():
     root = 'C:\\Users\\alyss\\Documents\\arduino-compass\\'
     folders = ["data_north\\", "data_south\\", "data_east\\", "data_west\\"]
-    columnames = ["xaccel", "yaccel", "zaccel"]
+    extensions = ["xaccel", "yaccel", "zaccel"]
     for folder in folders:
         filenames = getFiles(root, folder)
-        print(filenames)
+
         for name in filenames:
             if name == 'filenames.txt':
-                pass
-            else:
-                splitByAccel(root, name, columnames)
+                filenames.remove(name)
+
+            splitByAccel(root, name, extensions)
+            # more reused code
+            for j in extensions:
+                infile = open(root + name + j).read().split("\n")
+
+                del infile[-1]
+                outliers = removeOutliers.Outliers(infile)
+                outliers.findOutliers()
+                cleaned = outliers.removeOutliersFn()
+
+                # create clean file
+                with open(root + name + j + "clean", "a") as outfile:
+                    for val in cleaned:
+                        outfile.write(val.strip()+"\n")
+        remove (root + name)    # reduces clutter
+                
+
+
 
 
 if __name__ == '__main__':

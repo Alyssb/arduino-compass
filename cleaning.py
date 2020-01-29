@@ -139,7 +139,6 @@ def main():
                 for val in cleaned:
                     outfile.write(val.strip()+"\n")
 
-            # remove(root+i+j) # remove some files to reduce clutter
         remove(root + i)
 
     print('cleaned.')
