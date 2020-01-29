@@ -69,7 +69,7 @@ def getAvgs(root, name, extension, averages):
     del infile [-1]
     del infile [-1]
     averages.append(avgfn(infile))
-    # remove(root + name + extension)
+    remove(root + name + extension)
 
 def avgfn(infile):
     # calculates average of a file
@@ -89,7 +89,6 @@ def stdfn(infile, avg):
     return total/(len(infile))       
 
 ############################################################## MAIN ##############################################################
-
 
 def main():
     # definitely could be cleaner
@@ -131,6 +130,7 @@ def main():
             outliers = removeOutliers.Outliers(infile) # Create a new instance of Outliers class
             outliers.findOutliers()
             cleaned = outliers.removeOutliersFn()
+            outliers.replaceFile(root + i + j)
 
             # create a file called something like 'xaccelclean', append to the end
             with open(root+j+"clean", "a") as outfile:

@@ -42,6 +42,11 @@ class Outliers:
             del self.infile[val]
         return(self.infile)
 
+    def replaceFile(self, filename):
+        with open(filename, "w") as outfile:
+            for line in self.infile:
+                outfile.write(line + "\n")
+
     def concat(self, infile, finalFilename):
         # stitch files back together in original format
         with open(finalFilename, "a") as outfile:

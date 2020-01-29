@@ -72,6 +72,7 @@ def main():
                     for val in cleaned:
                         outfile.write(val.strip()+"\n")
         remove (root + folder + name)    # reduces clutter
+        # throwback to when this wasn't garbage
 
 
 
