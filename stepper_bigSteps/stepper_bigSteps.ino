@@ -5,10 +5,10 @@
 #define SIG_DIG 3
 
 // global variables
-int stepSize = 100; // number of steps to take. 100 is 90 degrees
+int stepSize = 5; // number of steps to take. 100 is 90 degrees
 int dataFrequency = 500; // how often to take data in microseconds
-int dataLength = 120; // how many times to take data (# points = dataFrequency * dataLength)
-int numSteps = 3; // how many steps are taken. Consider stepSize when choosing value
+int dataLength = 240; // how many times to take data (# points = dataFrequency * dataLength)
+int numSteps = 80; // how many steps are taken. Consider stepSize when choosing value
 bool wait = true;
 int waitTime = (60 * 1000); // how long to wait between actions in microseconds
 bool takingData = true;
@@ -126,6 +126,8 @@ void loop()
     }
     takeStep();
   }
+
+  Serial.println("FINISHED.");
 
   digitalWrite(dirpin, HIGH);    // Set direction to counterclockwise
   delay(100);

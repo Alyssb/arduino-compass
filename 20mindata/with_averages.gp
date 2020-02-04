@@ -1,6 +1,8 @@
 # this is a script for plotting clean accel data with averages
 # the averages are not lined up, too lazy to do that rn
 
+# Rotate every 5 degrees and see how that goes. Take 2 minute data
+
 set term png 
 set output 'accel_clean_with_avg.png'
 

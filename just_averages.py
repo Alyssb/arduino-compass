@@ -39,7 +39,7 @@ def splitByAccel(root, folder, filename, columnames):
     print(filename)
     for i in columnames:
         with open(root + folder + filename + i, "w+") as outfile:
-            for line in filename:
+            for line in open(root + folder + filename, "r").read().split("\n"):
                 if(len(line) >= column):
                     outfile.write(line.split("\t")[column] + "\n")
         column += 1
@@ -64,19 +64,19 @@ def main():
             splitByAccel(root, folder, name, extensions)
             
             # more reused code
-            # for j in extensions:
-            #     infile = open(root + folder + name + j).read().split("\n")
+            for j in extensions:
+                infile = open(root + folder + name + j).read().split("\n")
 
-            #     del infile[-1]
-            #     outliers = removeOutliers.Outliers(infile)
-            #     outliers.findOutliers()
-            #     cleaned = outliers.removeOutliersFn()
+                del infile[-1]
+                outliers = removeOutliers.Outliers(infile)
+                outliers.findOutliers()
+                cleaned = outliers.removeOutliersFn()
 
-            #     # create clean file
-            #     with open(root + name + j + "clean", "a") as outfile:
-            #         for val in cleaned:
-            #             outfile.write(val.strip()+"\n")
-        # remove (root + folder + name)    # reduces clutter
+                # create clean file
+                with open(root + name + j + "clean", "a") as outfile:
+                    for val in cleaned:
+                        outfile.write(val.strip()+"\n")
+        remove (root + folder + name)    # reduces clutter
         # throwback to when this wasn't garbage
     print("cleaning....")
 
