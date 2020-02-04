@@ -7,7 +7,7 @@
 // global variables
 int stepSize = 5; // number of steps to take. 100 is 90 degrees
 int dataFrequency = 500; // how often to take data in microseconds
-int dataLength = 240; // how many times to take data (# points = dataFrequency * dataLength)
+int dataLength = 240; // how many times to take data (# points = dataFrequencyE-3 * dataLength)
 int numSteps = 80; // how many steps are taken. Consider stepSize when choosing value
 bool wait = true;
 int waitTime = (60 * 1000); // how long to wait between actions in microseconds
@@ -127,12 +127,14 @@ void loop()
     takeStep();
   }
 
-  Serial.println("FINISHED.");
+  i = 0;
+
+  Serial.print("FINISHED."); Serial.print("\n");
 
   digitalWrite(dirpin, HIGH);    // Set direction to counterclockwise
   delay(100);
   
-  for (i = 0; i <= 3; i++) {
+  for (i = 0; i <= numSteps; i++) {
     if(takingData) {
       takeData();
     }

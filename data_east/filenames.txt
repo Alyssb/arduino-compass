@@ -1,2 +1,4 @@
+east-s1-60898
+east-s1-64180
 east-s1-8821
 filenames.txt

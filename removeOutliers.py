@@ -16,7 +16,8 @@ class Outliers:
         self.sorted = infile.copy()
         self.sorted.sort()
         # corrects if the file had both positive and negative numbers
-        if(self.sorted[len(self.sorted)-1][0] == '-'):
+        print(self.sorted[-1][0])
+        if(self.sorted[-1][0] == '-'):
             self.sorted.sort(reverse=True)
         
         # calculates Q1, Q3, and IQR for a given file
@@ -28,11 +29,14 @@ class Outliers:
     def findOutliers(self):
         # calculates valid range (Q1 - (1.5 * IQR) to Q3 + (1.5 * IQR))
         maxval = self.q3 + 1.5*self.iqr
+        print("MAXVAL: ",maxval)
         minval = self.q1 - 1.5*self.iqr
+        print("MINVAL: ",minval)
 
         # creates an array of line #s for outliers
         for i in range(1, len(self.infile)):
             if(float(self.infile[i]) > maxval) or (float(self.infile[i]) < minval):
+                # print("CURRENT VAL: ",self.infile[i])
                 self.outlierlines.append(i)
         print("Number of Outliers: ",len(self.outlierlines))
     

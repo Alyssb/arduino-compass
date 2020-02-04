@@ -59,8 +59,7 @@ def main():
                 filenames.remove(name)
         
         for name in filenames:
-            # print(name)
-            # print(filenames)
+
             splitByAccel(root, folder, name, extensions)
             
             # more reused code
@@ -73,11 +72,12 @@ def main():
                 cleaned = outliers.removeOutliersFn()
 
                 # create clean file
-                with open(root + name + j + "clean", "a") as outfile:
+                with open(root + folder + name + j + "clean", "a") as outfile:
                     for val in cleaned:
                         outfile.write(val.strip()+"\n")
-        remove (root + folder + name)    # reduces clutter
-        # throwback to when this wasn't garbage
+                remove (root + folder + name + j)    # reduces clutter
+                remove (root + folder + name + j + "clean") # just for now
+        # throwback to when this wasn't garbage. I miss that
     print("cleaning....")
 
 if __name__ == '__main__':
