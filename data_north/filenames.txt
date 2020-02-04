@@ -1,3 +1,6 @@
 filenames.txt
 north-s1-55881
+north-s1-55881xaccel
+north-s1-55881yaccel
+north-s1-55881zaccel
 north-s1-7200
