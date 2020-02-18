@@ -5,7 +5,7 @@
 #define SIG_DIG 3
 
 // global variables
-int stepSize = 5; // number of steps to take. 100 is 90 degrees
+int stepSize = 5; // number of steps to make full circle. 100 is 90 degrees
 int dataFrequency = 500; // how often to take data in microseconds
 int dataLength = 240; // how many times to take data (# points = (dataFrequency)E-3 * dataLength)
 int numSteps = 80; // how many steps are taken. Consider stepSize when choosing value
