@@ -2,6 +2,7 @@
 # going to try to not be too extra about it....
 
 # ******************* VARIABLES *******************
+numLines = 2400 # at end of filename probably
 numSteps = 80   # number of steps in the circle
 pointsPer = 30  # number of data points per step
 spacing = 10    # how many steps I want to go
@@ -12,6 +13,10 @@ filename = "starting_north-2400"
 
 # **************** FUNCTIONS *****************
 
+def getPeaks(filename):
+    xaccel, yaccel = getData(filename)
+    for i in range(0, numLines, spacing):
+
 def getData(filename):
     infile = open(filename).read().split("\n")
     xaccel = []
@@ -20,8 +25,7 @@ def getData(filename):
         columns = line.split("\t")
         xaccel.append(float(columns[0]))
         yaccel.append(float(columns[1]))
-    print(xaccel)
-    print(infile)
+    return(xaccel, yaccel)
 
 def printAverage():
     print("not yet implemented")
@@ -32,7 +36,7 @@ def average():
 # ******************* MAIN ******************
 
 def main():
-    getData(root + filename)
+    getPeaks(root + filename)
 
 if __name__ == "__main__":
     main()
