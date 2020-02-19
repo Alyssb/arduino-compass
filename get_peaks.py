@@ -15,7 +15,22 @@ filename = "starting_north-2400"
 
 def getPeaks(filename):
     xaccel, yaccel = getData(filename)
-    for i in range(0, numLines, spacing):
+    xavgs = []
+    yavgs = []
+
+    # travels through and just hits the directions you want.
+    for i in range(0, numSteps, spacing):    
+        xavg = 0
+        yavg = 0
+        for j in range(0,pointsPer):
+            # print(j+i*pointsPer)
+            xavg = (xavg + xaccel[i*pointsPer+j])/2
+            yavg = (yavg + yaccel[i*pointsPer+j])/2
+        xavgs.append(xavg)
+        yavgs.append(yavg)
+        print(xavgs)
+        print(yavgs)
+            
 
 def getData(filename):
     infile = open(filename).read().split("\n")

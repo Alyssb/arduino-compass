@@ -1,5 +1,6 @@
 '''
 Alyssa Slayton 01/28/2020
+We're Scrapping this file.
 '''
 '''
 A python script which:
