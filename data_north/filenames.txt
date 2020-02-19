@@ -1,3 +1,0 @@
-filenames.txt
-north-s1-55881
-north-s1-7200
