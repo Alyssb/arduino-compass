@@ -1,6 +1,6 @@
 '''
-Alyssa Slayton 01/22/2020
-My first real python script
+Alyssa Slayton 01/29/2020
+My first real python script; my pride and joy
 I would like to eventually separate this into modules
 '''
 '''
@@ -13,19 +13,21 @@ A python script which:
         writes a gnuplot script in respective directory
         plots clean x accel data versus clean y accel data
         outputs png
+        Calculates and returns average of each direction
     WILL:
-        Calculate average of each direction
-        tell me those averages
+        put averages in same file as just_averages.py
 I will be using this data to calculate which direction random data is facing.
 '''
 # allows me to run system commands or delete files
+import removeOutliers
 from os import system, remove
+
 
 #################################################### FILE SPEARATION ####################################################
 
 class directionalize:
-    # creates a file for each direction
-    # for x acceleration, y acceleration, and z acceleration
+    # creates a file for each direction and extension
+
     def __init__(self, infile, numsections, linesPerSection, root, names, columnnames):
         self.infile = infile
         self.numsections = numsections
@@ -34,22 +36,24 @@ class directionalize:
         self.names = names
         self.columnnames = columnnames
 
+    # creates a file for each direction
     def splitByD(self):
-        # creates separate files for each direction in original
         currentSection = 0
         for i in range(0,self.numsections):
             currentSection = i
             with open(self.root + self.names[currentSection], "w+") as outfile:
-                for j in range(currentSection * self.linesPerSection, (currentSection*self.linesPerSection) + self.linesPerSection):
+                for j in range(currentSection * self.linesPerSection, 
+                        (currentSection*self.linesPerSection) + self.linesPerSection):
                     outfile.write(self.infile[j] + "\n")
-                
+    
+    # creates a file for each acceleration
     def splitByAccel(self, name):
-        # creates separate files for each acceleration
         # takes a direction file
-
         column = 0
         filename = open(self.root + name).read().split("\n")
 
+        # the columns are known in the data
+        # this will not work if the data is in a different format
         for i in self.columnnames:
             with open(self.root + name + i, "w+") as outfile:
                 for line in filename:
@@ -57,50 +61,15 @@ class directionalize:
                         outfile.write(line.split("\t")[column] + "\n")
             column += 1
 
-######################################## REMOVING OUTLIERS ###############################################################
-
-class Outliers:
-    def __init__(self, infile):
-        self.infile = infile
-
-        # sorts infile in ascending order
-        self.sorted = infile.copy()
-        self.sorted.sort()
-        # corrects if the file had both positive and negative numbers
-        if(self.sorted[len(self.sorted)-1][0] == '-'):
-            self.sorted.sort(reverse=True)
-        
-        # calculates Q1, Q3, and IQR for a given file
-        self.q1 = float(self.sorted[int(0.25 * len(self.sorted))])
-        self.q3 = float(self.sorted[int(0.75 * len(self.sorted))])
-        self.iqr = (float(self.q3) - float(self.q1))
-        self.outlierlines = []
-
-    def findOutliers(self):
-        # calculates valid range (Q1 - (1.5 * IQR) to Q3 + (1.5 * IQR))
-        maxval = self.q3 + 1.5*self.iqr
-        minval = self.q1 - 1.5*self.iqr
-
-        # creates an array of line #s for outliers
-        for i in range(1, len(self.infile)):
-            if(float(self.infile[i]) > maxval) or (float(self.infile[i]) < minval):
-                self.outlierlines.append(i)
-        print("Number of Outliers: ",len(self.outlierlines))
-    
-    def removeOutliers(self):
-        self.outlierlines.sort(reverse=True) # sort in descending order so removals do not affect line numbers
-        for val in self.outlierlines:
-            del self.infile[val]
-        return(self.infile)
-
-    def concat(self, infile, finalFilename):
-        # stitch files back together in original format
-        with open(finalFilename, "a") as outfile:
-            for line in infile:
-                outfile.write(line + "\n")
-        print(open(finalFilename, "r").read())
-
 ######################################################### CALCULATING AVERAGE ##############################################
+
+# gets the averages and puts them in a list. Deletes excess files
+def getAvgs(root, name, extension, averages):
+    infile = open(root + name + extension).read().split("\n")
+    del infile [-1]
+    del infile [-1]
+    averages.append(avgfn(infile))
+    remove(root + name + extension)
 
 def avgfn(infile):
     # calculates average of a file
@@ -123,7 +92,9 @@ def stdfn(infile, avg):
 
 def main():
     # definitely could be cleaner
-    root = 'C:\\Users\\alyss\\Documents\\overnight_data\\20mindata\\' # change as needed
+    print("cleaning...")
+
+    root = 'C:\\Users\\alyss\\Documents\\arduino-compass\\20mindata\\' # change as needed
     infile = open(root + "20mindata.txt", "r").read().split("\n")
     
     # VARIABLES
@@ -156,40 +127,40 @@ def main():
             # files made have 2 newlines at the end. Remove them
             del infile[-1]
             del infile[-1]
-            outliers = Outliers(infile) # Create a new instance of Outliers class
+            outliers = removeOutliers.Outliers(infile) # Create a new instance of Outliers class
             outliers.findOutliers()
-            cleaned = outliers.removeOutliers()
+            cleaned = outliers.removeOutliersFn()
+            outliers.replaceFile(root + i + j)
 
             # create a file called something like 'xaccelclean', append to the end
             with open(root+j+"clean", "a") as outfile:
                 for val in cleaned:
                     outfile.write(val.strip()+"\n")
 
-            # remove(root+i+j) # remove some files to reduce clutter
-        # remove(root + i)
+        remove(root + i)
+
+    print('cleaned.')
 
     # calculating the averages
+    print('calculating averages....')
     for i in names:
-        infile = open(root + i + 'xaccel').read().split("\n")
-        del infile [-1]
-        del infile [-1]
-        xaverages.append(avgfn(infile))
-        print(xaverages)
-        # done with this today I think
+        getAvgs(root, i, 'xaccel', xaverages)
+        getAvgs(root, i, 'yaccel', yaverages)
+        getAvgs(root, i, 'zaccel', zaverages)
 
+    print("averages calculated:\n\tXAVERAGES: ", 
+    xaverages, '\n\tYAVERAGES: ', yaverages, '\n\tZAVERAGES: ', zaverages)
 
-        
-
-    print("cleaning...")
-    # create a gnuplot script in the active folder
+    # create and run a gnuplot script in the active folder
     # probably a better way to do this, 
-    #   but I couldn't get a gnuplot script to run from another folder
-    with open(root+"plot_accel.p", "w") as outfile:
+    with open(root+"plot_accel.gp", "w") as outfile:
         outfile.write("set term png\n")                      # output is png
-        outfile.write("set output 'accel_clean.png\n")       # name output
-        outfile.write("plot 'xaccelclean' w lines title " +  # plot xaccel and y accel
-        "'X Accel', 'yaccelclean' w lines title 'Y Accel'")
-    system('gnuplot ' + root + 'plot_accel.p')               # run the gnuplot script created
+        outfile.write("set output '" + root + "accel_clean.png'\n")       # name output
+        # I want to draw arrows on the plot but that's cosmetic and a later problem I think
+        outfile.write("plot '" + root + "xaccelclean' w lines title " +  # plot xaccel and y accel
+        "'X Accel', (" + str(xaverages[0]) +"), (" + str(xaverages[-1]) + "), '"+ root + "yaccelclean' w lines title 'Y Accel'\n")
+    system('gnuplot ' + root + 'plot_accel.gp') # runs the created gnuplot script
+    
     print("plot created.")
 
 ####################################################################################################################################
