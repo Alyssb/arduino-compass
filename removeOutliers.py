@@ -14,14 +14,10 @@ class Outliers:
 
         # sorts infile in ascending order
         self.sorted = infile.copy()
-        for i in range(len(self.sorted)-1):
+        for i in range(len(self.sorted)):
             temp = float(self.sorted[i])
             self.sorted[i] = temp
         self.sorted.sort()
-        # corrects if the file had both positive and negative numbers
-        print(self.sorted[-1])
-        # if(self.sorted[-1] < 0.0):
-        #   self.sorted.sort(reverse=True)
         
         # calculates Q1, Q3, and IQR for a given file
         self.q1 = self.sorted[int(0.25 * len(self.sorted))]
@@ -38,7 +34,7 @@ class Outliers:
 
         # creates an array of line #s for outliers
         for i in range(1, len(self.infile)):
-            if(self.infile[i] > maxval or self.infile[i] < minval):
+            if(float(self.infile[i]) > maxval or float(self.infile[i]) < minval):
                 # print("CURRENT VAL: ",self.infile[i])
                 self.outlierlines.append(i)
         print("Number of Outliers: ",len(self.outlierlines))
