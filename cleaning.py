@@ -1,5 +1,5 @@
 '''
-Alyssa Slayton 01/29/2020
+Jo Slayton 01/29/2020
 My first real python script; my pride and joy
 I would like to eventually separate this into modules
 '''
