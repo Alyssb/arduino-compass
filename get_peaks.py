@@ -28,16 +28,19 @@ def getPeaks(filename):
             xavg = (xavg + xaccel[i*pointsPer+j])/2
             yavg = (yavg + yaccel[i*pointsPer+j])/2
         
-        xavgs.append(xavg)
-        yavgs.append(yavg)
-    
+        xavgs.append(round(xavg, 3))
+        yavgs.append(round(yavg, 3))
+    print("MAXIMUM X: ", max(xavgs))
+    print("MINIMUM X: ",min(xavgs))
+    print("MAXIMUM Y: ", max(yavgs))
+    print("MINIMUM Y: ", min(yavgs))
     writeAverages(xavgs, yavgs, filename + "-avgs.txt")
 
 def writeAverages(xavgs, yavgs, outfilename):
     with open(outfilename, "w") as outfile:
         i = 360
 
-        while i >= 0:
+        while i > 0:
             outfile.write(str(i)+",")
             i -= 4.5
 
