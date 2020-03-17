@@ -19,6 +19,35 @@
         onclick="document.getElementById('demo').innerHTML = Date()">
         Click me to display Date and Time.</button>
 
-<p id="demo"></p>
+        <form id="form1">
+            <label for="fage">age:</label><br>
+            <input type="text" id = "fage" name="fage" value="type here"><br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <script>
+            function processForm(e) {
+                if (e.preventDefault) e.preventDefault();
+                var age = e;
+                // var canVote = (age < 18) ? "Too young" : "Old enough";
+                document.getElementByID('vote').innerHTML = age;
+                
+                return false;
+            }
+
+            var form = document.getElementById('form1');
+            if(form.attachEvent) {
+                form.attachEvent("submit", processForm);
+            } else {
+                form.addEventListener("submit", processForm);
+            }
+
+        </script>
+
+        <p id="vote"> 
+            None of this really matters, 
+            Just going to focus on doing what I have to do
+        </p>
+        <p id="demo"></p>
     </body>
 </html>
