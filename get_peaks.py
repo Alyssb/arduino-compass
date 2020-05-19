@@ -31,7 +31,7 @@ def getPeaks(filename):
         xavgs.append(round(xavg, 3))
         yavgs.append(round(yavg, 3))
     print("MAXIMUM X: ", max(xavgs))
-    print("MINIMUM X: ",min(xavgs))
+    print("MINIMUM X: ", min(xavgs))
     print("MAXIMUM Y: ", max(yavgs))
     print("MINIMUM Y: ", min(yavgs))
     writeAverages(xavgs, yavgs, filename + "-avgs.txt")
