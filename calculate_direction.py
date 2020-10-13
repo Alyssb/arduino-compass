@@ -4,6 +4,7 @@ Jo Slayton 2020
 Will calculate the direction of the sensor using a randomly generated x,y pair
 A concept test for the arduino implementation
 '''
+
 import numpy as np
 
 # idk what i'm doing
@@ -36,17 +37,37 @@ def main():
     # use the averages
     xsine = []
     ysine = []
-    #print(len(degrees))
-    #print(len(xavgs))
+
+    # this will be in a separate function but just keeping it in main for right now
     degrees.reverse()
     for i in degrees:
         xsine.append((0.7*np.sin(np.radians(i)+0.6492625)) - 0.3)
         ysine.append((0.7*np.sin(np.radians(i)-0.6492625)) + 0.145)
-    print(xsine)
-    print(ysine)
+    #print(xsine)
+    #print(ysine)
 
     #here is where I'm not super sure. I have my since curves, so I want to check where x and y are most similar
+    # this will be in a separate function but just keeping it in main for right now
+    x = xavgs[0]
+    y = yavgs[0]
+    temp = 1
+    xdirection = 0
+    ydirection = 0
+    for i in range(len(xsine)):
+        diff = abs(xsine[i]-x)
+        if(diff < temp):
+            temp = diff
+            xdirection = degrees[i]
     
+    for j in range(len(ysine)):
+        diff = abs(ysine[j]-y)
+        if(diff < temp):
+            temp = diff
+            ydirection = degrees[j]
+
+    print(xdirection) # returns 234 w/o abs, 9 with
+    print(ydirection) # returns 0 w/o abs, 261 with
+
 
 if __name__ == "__main__":
     main()
