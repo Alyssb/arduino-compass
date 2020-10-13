@@ -33,7 +33,20 @@ yavgs = [-0.342,-0.388,-0.425,-0.458,-0.499,-0.501,-0.536,-0.513,-0.607,-0.57,-0
 def main():
     # x accel sine = ((0.7)*sin(x+0.6492625))-0.3
     # y accel sine = ((0.7)*sin(x-0.6492625))+0.145
-    print("hello world.")
+    # use the averages
+    xsine = []
+    ysine = []
+    #print(len(degrees))
+    #print(len(xavgs))
+    degrees.reverse()
+    for i in degrees:
+        xsine.append((0.7*np.sin(np.radians(i)+0.6492625)) - 0.3)
+        ysine.append((0.7*np.sin(np.radians(i)-0.6492625)) + 0.145)
+    print(xsine)
+    print(ysine)
+
+    #here is where I'm not super sure. I have my since curves, so I want to check where x and y are most similar
+    
 
 if __name__ == "__main__":
     main()
